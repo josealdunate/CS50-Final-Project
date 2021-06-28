@@ -8,6 +8,8 @@ RE.NECTION is the solution for this problem !
 
 It will constantly be comparing your clients needs to your listing's features, reminding you who would be interesed on a specific property.
 
+You can watch a video of the app running [here](https://www.youtube.com/watch?v=IwhwUpRpudI).
+
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
