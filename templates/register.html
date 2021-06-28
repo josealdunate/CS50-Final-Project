@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    - Register 
+{% endblock %}
+
+{% block login_text %}
+    <p>
+        <strong>Have you ever wondered how many deals are you losing for not keeping track of your clients' needs?</strong> 
+    </p>
+    <p class="p-less">
+        As a Realtor, you will meet at least 20 potential buyers for every property you list. Only one of them will probably
+            buy it, but, what about the remaining 19? In a few weeks of listing new propertys and meeting new potential buyers, 
+            you will forget about their requests, reducing your chances to make more deals.
+    </p>
+    <p>
+        <strong>RE.NECTION is the solution for this problem !</strong>
+    </p>
+    <p class="p-less">
+        It will constantly be comparing your clients needs to your listing's features, reminding you who would be interesed on 
+            a specific property.
+    </p>
+{% endblock %}
+
+{% block login_window %}
+    <h3 class="white m-top-bottom">Register Now !</h3>
+    <form action="/register" method="post">
+        <div class="form-group">
+            <input type="text" class="form-control" name="name" placeholder="Name" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="lastname" placeholder="Last Name" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Email Adress" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="confirm" placeholder="Confirm Password">
+        </div>
+        <button class="log-btn" type="submit">Register</button>
+    </form>   
+{% endblock %}

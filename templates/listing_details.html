@@ -1,0 +1,604 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    - Listing Details
+{% endblock %}
+
+{% block section_title %}
+    Listing Details
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-12">
+            <h3 class="tab-subheading">Main</h3>
+        </div>
+        <div class="col-4">
+            <!--********************************** UBICACION **********************************************************************-->
+            <div class="content-box mb-4">
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="box-heading">Location</h4>
+                    </div>
+                    <div class="col-4">
+                        <a role="button" href="#">
+                            <i class="far fa-edit edit-icon float-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-3">
+                        <ul>
+                            <li>Adress:</li>
+                            <li>Reference:</li>
+                        </ul>
+                    </div>
+                    <div class="col-9">
+                        <ul>
+                            {% if propiedad['depto'] %}
+                                <li>{{ propiedad['calle'] }} Nº {{ propiedad['numero'] }} Apt. {{ propiedad['depto'] }}</li>
+                            {% else %}
+                                <li>{{ propiedad['calle'] }} Nº {{ propiedad['numero'] }}</li>
+                            {% endif %}
+                            <li>{{ ubicacion['comuna'] }}, {{ ubicacion['region'] }}</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+            <!--********************************** PROPIETARIO **********************************************************************-->
+            <div class="content-box mb-4">
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="box-heading">Owner</h4>
+                    </div>
+                    <div class="col-4">
+                        <a role="button" href="#">
+                            <i class="far fa-edit edit-icon float-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-3">
+                        <ul>
+                            <li>Name:</li>
+                            <li>ID:</li>
+                            <li>Phone:</li>
+                            <li>Email</li>
+                        </ul>
+                    </div>
+                    <div class="col-9">
+                        <ul>
+                            <li>{{ propietario['nombre'] }} {{ propietario['apellido'] }}</li>
+                            <li>{{ propietario['ci'] }}</li>
+                            <li>{{ propietario['telefono'] }}</li>
+                            <li>{{ propietario['email'] }}</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="col-4">
+            <!--********************************** TIPOS DE PROPIEDAD **********************************************************************-->
+            <div class="content-box mb-4">
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="box-heading">Property Types</h4>
+                    </div>
+                    <div class="col-4">
+                        <a role="button" href="#">
+                            <i class="far fa-edit edit-icon float-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if "departamento" in tipos_de_propiedad %}
+                        <input type="checkbox" class="custom-control-input" id="TypeApartment" name="departamento" value="departamento" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="TypeApartment" name="departamento" value="departamento" disabled>
+                    {% endif %}
+                    <label for="TypeApartment" class="custom-control-label">Apartment</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if "comercial" in tipos_de_propiedad %}
+                        <input type="checkbox" class="custom-control-input" id="TypeCommercial" name="comercial" value="comercial" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="TypeCommercial" name="comercial" value="comercial" disabled>
+                    {% endif %}
+                    <label for="TypeCommercial" class="custom-control-label">Commercial</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if "casa" in tipos_de_propiedad %}
+                        <input type="checkbox" class="custom-control-input" id="TypeHouse" name="casa" value="casa" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="TypeHouse" name="casa" value="casa" disabled>
+                    {% endif %}
+                    <label for="TypeHouse" class="custom-control-label">House</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if "industrial" in tipos_de_propiedad %}
+                        <input type="checkbox" class="custom-control-input" id="TypeIndustrial" name="industrial" value="industrial" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="TypeIndustrial" name="industrial" value="industrial" disabled>
+                    {% endif %}
+                    <label for="TypeIndustrial" class="custom-control-label">Industrial</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if "terreno" in tipos_de_propiedad %}
+                        <input type="checkbox" class="custom-control-input" id="TypeLand" name="terreno" value="terreno" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="TypeLand" name="terreno" value="terreno" disabled>
+                    {% endif %}
+                    <label for="TypeLand" class="custom-control-label">Land</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if "oficina" in tipos_de_propiedad %}
+                        <input type="checkbox" class="custom-control-input" id="TypeOffice" name="oficina" value="oficina" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="TypeOffice" name="oficina" value="oficina" disabled>
+                    {% endif %}
+                    <label for="TypeOffice" class="custom-control-label">Office</label>
+                </div>  
+            </div>
+        </div>
+        
+        <!--********************************** OPERACIONES **********************************************************************-->
+        <div class="col-4">
+            <div class="content-box">
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="box-heading">Operations</h4>
+                    </div>
+                    <div class="col-4">
+                        <a role="button" href="#">
+                            <i class="far fa-plus-square edit-icon float-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="box-subheading">Active:</h5>
+                        <hr class="mt-0">
+                        <ul>
+                            {% for operacion in operaciones %}
+                                {% if operacion['activo'] == 1 %}
+                                    {% if operacion['tipo'] == 'venta' %}
+                                        <li class="orange-text"><button class="btn-status btn-orange-outline my-1" onclick="listingAlert({{operacion['id']}}, 'turnOff')">On</button> Sale - UF {{operacion["precio"]}}</li>
+                                    {% else %}
+                                        <li class="purple-text"><button class="btn-status btn-purple-outline my-1" onclick="listingAlert({{operacion['id']}}, 'turnOff')">On</button> Lease - $ {{operacion["precio"]}}</li>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <h5 class="box-subheading">Inactive:</h5>
+                        <hr class="mt-0">
+                        <ul>
+                            {% for operacion in operaciones %}
+                                {% if operacion['activo'] == 0 %}
+                                    {% if operacion['tipo'] == 'venta' %}
+                                        <li class="gray-text"><button class="btn-status btn-gray-outline my-1" disabled>Off</button> Sale - UF {{operacion["precio"]}}</li>
+                                    {% else %}
+                                        <li class="gray-text"><button class="btn-status btn-gray-outline my-1" disabled>Off</button> Lease - $ {{operacion["precio"]}}</li>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+
+
+        <div class="col-12">
+            <h3 class="tab-subheading">Features</h3>
+        </div>
+        
+        <!--********************************** EQUIPAMIENTO **********************************************************************-->
+        <div class="col-4">
+            <div class="content-box">
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="box-heading">Equipment & More</h4>
+                    </div>
+                    <div class="col-4">
+                        <a role="button" href="#">
+                            <i class="far fa-edit edit-icon float-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <h5 class="box-subheading">Overall</h5>
+                <hr class="mt-0">
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["amoblado"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="Furnished" name="furnished" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="Furnished" name="furnished" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="Furnished">Furnished</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["logia"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="OnSiteLaundry" name="on_site_laundry" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="OnSiteLaundry" name="on_site_laundry" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="OnSiteLaundry">On-Site Laundry</label>
+                </div>
+                    <div class="custom-control custom-checkbox">
+                    {% if equipamiento["comedor_diario"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="DailyDining" name="daily_dining" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="DailyDining" name="daily_dining" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="DailyDining">Daily Dining</label>
+                </div>
+                <h5 class="box-subheading">Building</h5>
+                <hr class="mt-0">
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["condominio"] == 1 %}  
+                        <input type="checkbox" class="custom-control-input" id="Condominium" name="condominium" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="Condominium" name="condominium" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="Condominium">Condominium</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["conserje"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="Janitor" name="janitor" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="Janitor" name="janitor" value="1" disabled>     
+                    {% endif %}
+                        <label class="custom-control-label" for="Janitor">Janitor</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["ascensor"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="Elevator" name="elevator" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="Elevator" name="elevator" value="1" disabled>
+                    {% endif %}
+                        <label class="custom-control-label" for="Elevator">Elevator</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["estacionamiento_visitas"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="VisitorParking" name="visitor_parking" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="VisitorParking" name="visitor_parking" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="VisitorParking">Visitor Parking</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["lavanderia"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="Laundry" name="laundry" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="Laundry" name="laundry" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="Laundry">Laundry</label>
+                </div>
+                <h5 class="box-subheading">Connections</h5>
+                <hr class="mt-0">
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["gas_caneria"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="PipeGas" name="pipe_gas" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="PipeGas" name="pipe_gas" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="PipeGas">Pipe Gas</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["conexion_lavadora"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="WMConnection" name="wm_connection" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="WMConnection" name="wm_connection" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="WMConnection">For Washing Machine</label>
+                </div>
+                <h5 class="box-subheading">Windows</h5>
+                <hr class="mt-0">
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["termopanel"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="DoubleGlazed" name="double_glazed" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="DoubleGlazed" name="double_glazed" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="DoubleGlazed">Double Glazed</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["ventana_bano"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="BathroomWindow" name="bathroom_window" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="BathroomWindow" name="bathroom_window" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="BathroomWindow">On Bathroom</label>
+                </div>
+                <h5 class="box-subheading">Amusement</h5>
+                <hr class="mt-0">
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["quincho"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="Barbeque" name="barbeque" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="Barbeque" name="barbeque" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="Barbeque">Barbeque Area</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["gimnasio"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="Gym" name="gym" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="Gym" name="gym" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="Gym">Gym</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["salon_multiuso"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="LoungeRoom" name="lounge_room" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="LoungeRoom" name="lounge_room" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="LoungeRoom">Lounge Room</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["piscina"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="Pool" name="pool" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="Pool" name="pool" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="Pool">Pool</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["azotea_privada"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="Rooftop" name="rooftop" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="Rooftop" name="rooftop" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="Rooftop">Rooftop</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {% if equipamiento["sauna"] == 1 %}
+                        <input type="checkbox" class="custom-control-input" id="Sauna" name="sauna" value="1" checked disabled>
+                    {% else %}
+                        <input type="checkbox" class="custom-control-input" id="Sauna" name="sauna" value="1" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="Sauna">Sauna</label>
+                </div>
+            </div>
+        </div>
+        <!--********************************** CARACTERISTICAS PRINCIPALES **********************************************************************-->
+        <div class="col-4">
+            <div class="content-box">
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="box-heading">Main Features</h4>
+                    </div>
+                    <div class="col-4">
+                        <a role="button" href="#">
+                            <i class="far fa-edit edit-icon float-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="box-subheading">Set-Up</h5>
+                        <hr class="mt-0">
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>Bedrooms:</li>
+                            <li>Bathrooms:</li>
+                            <li>On Suite:</li>
+                            <li>Parking Lots:</li>
+                            <li>Storage:</li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>{{ caracteristicas_rangos['dormitorios'] }}</li>
+                            <li>{{ caracteristicas_rangos['banos'] }}</li>
+                            <li>{{ caracteristicas_rangos['banos_suite'] }}</li>
+                            <li>{{ caracteristicas_rangos['estacionamientos'] }}</li>
+                            <li>{{ caracteristicas_rangos['bodegas'] }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="box-subheading">Surface Area</h5>
+                        <hr class="mt-0">
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>Useful:</li>
+                            <li>Garden - Terrace:</li>
+                            <li>Total Surface:</li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>{{ caracteristicas_rangos['superficie_u'] }} m&sup2;</li>
+                            <li>{{ caracteristicas_rangos['superficie_t'] }} m&sup2;</li>
+                            {% if caracteristicas_rangos['superficie_u'] == 'N/S' and caracteristicas_rangos['superficie_t'] == 'N/S' %}
+                                <li>N/S m&sup2;</li>
+                            {% elif caracteristicas_rangos['superficie_u'] == 'N/S' %}
+                                <li>{{ caracteristicas_rangos['superficie_t'] }}</li>
+                            {% elif caracteristicas_rangos['superficie_t'] == 'N/S' %}
+                                <li>{{ caracteristicas_rangos['superficie_u'] }}</li>
+                            {% else %}
+                                <li>{{ caracteristicas_rangos['superficie_u'] + caracteristicas_rangos['superficie_t'] }} m&sup2;</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="box-subheading">Expenses</h5>
+                        <hr class="mt-0">
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>Common Expenses:</li>
+                            <li>Taxation:</li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>$ {{ caracteristicas_rangos['ggcc'] }}</li>
+                            <li>$ {{ caracteristicas_rangos['contribuciones'] }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="box-subheading">More</h5>
+                        <hr class="mt-0">
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>Condition:</li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>{{ caracteristicas_rangos['estado'] }}</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="d-none">
+                    <div class="form-group row my-0">
+                        <label class="col-form-label col-4" for="Bedrooms">Bedrooms:</label>
+                        <div class="col-8">
+                            <input type="number" class="form-control-plaintext" id="Bedrooms" name="bedrooms" min="0" value="{{ caracteristicas_rangos['dormitorios']}}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row my-0">
+                        <label class="col-form-label col-4" for="Bathrooms:">Bathrooms:</label>
+                        <div class="col-8">
+                            <input type="number" class="form-control-plaintext" id="Bathrooms" name="bathrooms" min="0" value="{{ caracteristicas_rangos['banos']}}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row my-0">
+                        <label for="Suites" class="col-form-label col-4">On Suite:</label>
+                        <div class="col-8">
+                            <input type="number" class="form-control-plaintext" id="Suites" name="on_suites"min="0" value="{{ caracteristicas_rangos['banos_suite'] }}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row my-0">
+                        <label for="Parking" class="col-form-label col-4">Parking:</label>
+                        <div class="col-8">
+                            <input type="number" class="form-control-plaintext" id="Parking" name="parking" min="0" value="{{ caracteristicas_rangos['estacionamientos'] }}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row my-0">
+                        <label for="Storage" class="col-form-label col-4">Storage:</label>
+                        <div class="col-8">
+                            <input type="number" class="form-control-plaintext" id="Storage" name="storage" min="0" value="{{ caracteristicas_rangos['bodegas'] }}" readonly>
+                        </div>
+                    </div>
+                    <h5 class="box-subheading">Surface Area</h5>
+                    <hr class="mt-0">
+                    <div class="form-group row my-0">
+                        <label for="Surface" class="col-form-label col-6">Useful Surface:</label>
+                        <div class="col-6">
+                            <input type="number" class="form-control-plaintext" id="Surface" name="surface" min="0" value="{{caracteristicas_rangos['superficie_u']}}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row my-0">
+                        <label for="TotalSurface" class="col-form-label col-6">Garden - Terrace:</label>
+                        <div class="col-6">
+                            <input type="number" class="form-control-plaintext" id="TotalSurface" name="total_surface" min="0" value="{{caracteristicas_rangos['superficie_t']}}" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!--********************************** CARACTERISTICAS RANGOS **********************************************************************-->
+        <div class="col-4">
+            <div class="content-box">
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="box-heading">Specific Features</h4>
+                    </div>
+                    <div class="col-4">
+                        <a role="button" href="#">
+                            <i class="far fa-edit edit-icon float-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="box-subheading">Overall</h5>
+                        <hr class="mt-0">
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>Orientation:</li>
+                            <li>View Type:</li>
+                            <li>Year:</li>
+                            <li>Structure:</li>
+                            <li>Floors:</li>
+                            <li>On Floor:</li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>{{ caracteristicas_opciones['orientacion'] }}</li>
+                            <li>{{ caracteristicas_opciones['tipo_vista'] }}</li>
+                            <li>{{ caracteristicas_rangos['ano_construccion'] }}</li>
+                            <li>{{ caracteristicas_opciones['estructura'] }}</li>
+                            <li>{{ caracteristicas_rangos['pisos_construidos'] }}</li>
+                            <li>{{ caracteristicas_rangos['piso'] }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="box-subheading">Flooring</h5>
+                        <hr class="mt-0">
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>Bedrooms:</li>
+                            <li>Bathrooms:</li>
+                            <li>Living Room:</li>
+                            <li>Kitchen:</li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>{{ caracteristicas_opciones['piso_dormitorios'] }}</li>
+                            <li>{{ caracteristicas_opciones['piso_banos'] }}</li>
+                            <li>{{ caracteristicas_opciones['piso_living_comedor'] }}</li>
+                            <li>{{ caracteristicas_opciones['piso_cocina'] }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="box-subheading">Layout</h5>
+                        <hr class="mt-0">
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>Liv. - Din. Room:</li>
+                            <li>Kitchen Type:</li>
+                            <li>Kitchen Layout:</li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>{{ caracteristicas_opciones['living_comedor'] }}</li>
+                            <li>{{ caracteristicas_opciones['tipo_cocina'] }}</li>
+                            <li>{{ caracteristicas_opciones['distribucion_cocina'] }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="box-subheading">Heat System</h5>
+                        <hr class="mt-0">
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>Kitchen:</li>
+                            <li>Water:</li>
+                            <li>Heating:</li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>{{ caracteristicas_opciones['encimera'] }}</li>
+                            <li>{{ caracteristicas_opciones['agua_caliente'] }}</li>
+                            <li>{{ caracteristicas_opciones['calefaccion'] }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

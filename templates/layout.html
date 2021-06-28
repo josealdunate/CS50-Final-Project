@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+        <!-- BOOTSTRAP -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Anton&family=Source+Sans+Pro:ital@1&family=Sriracha&display=swap" rel="stylesheet">
+        <!-- FONT AWESOME 4 -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- FONT AWESOME 5 -->
+        <script src="https://kit.fontawesome.com/667bd5a776.js" crossorigin="anonymous"></script>
+
+        <link rel="icon" href="/static/images/network2.png">
+        <title>RE.Nection {% block title %}{% endblock %}</title>
+    </head>
+    {% if session.user_id %}
+        <body class="user-background">
+            <div class="container-fluid">
+                <div class="row">
+                    <nav class="user col-md-3 col-lg-2 d-md-block sidebar collapse">
+                        <div class="sticky-top py-3 px-2">
+                            <img class="logo-small" src="/static/images/network.png" alt="logo">
+                            <span class="anton-small white">RE.NECTION</span>
+                            <div class="my-5">
+                                <h6 class="white">Add New</h6>
+                                <hr class="nav-hr my-2">
+                                <ul>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/listings/new"><i class="fa fa-tag usernav-icon"></i>Listing</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/requests/new"><i class="fa fa-search-plus usernav-icon"></i>Request</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="my-5">
+                                <h6 class="white">Overview</h6>
+                                <hr class="nav-hr my-2">
+                                <ul>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/matching"><i class="fa fa-share-alt usernav-icon"></i>Matching</a>
+                                    </li>
+                                   
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/listings"><i class="fa fa-tags usernav-icon"></i>Listings</a>
+                                    </li>
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/requests"><i class="fas fa-search-dollar usernav-icon"></i>Requests</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                    <div class="col-md-9 col-lg-10">
+                        <div class="sticky-top">
+                            <div class="row">
+                                <nav class="col-12 top-nav">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h1 class="tab-heading px-4 pt-3">{% block section_title %}{% endblock %}</h1>
+                                        </div>
+                                        <div class="col-4 ">
+                                            <div class="float-right pr-4">
+                                                <button class="username dropdown-toggle dropdown-color" type="button" id="UserDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-user-circle user-dropdown-icon p-1"></i>
+                                                    {{ user["nombre"] }} {{ user["apellido"] }}
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="UserDropdown">
+                                                    <a href="#" class="dropdown-item dropdown-color"><i class="fas fa-user-cog p-2"></i>Profile</a>
+                                                    <a href="#" class="dropdown-item dropdown-color"><i class="fas fa-cog p-2"></i>Settings</a>
+                                                    <hr>
+                                                    <a href="/logout" class="dropdown-item dropdown-color"><i class="fas fa-sign-out-alt p-2"></i>Log Out</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                        <main class="px-4">
+                            <div class="row">
+                                {% block main %}{% endblock %}
+                            </div> 
+                        </main>
+                    </div>
+                </div>
+            </div>
+    {% else %}
+        <body class="login-background">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <nav class="login">
+                            <ul>
+                                <li class="line"><a href="/login">Login</a></li>
+                                <li><a href="/register">About</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+            <main>
+                <div class="container">
+                    <div class="row align-items-center full-height">
+                        <div class="col-8 white log-text text-justify">
+                                <img class="logo d-inline" src="/static/images/network.png" alt="logo">
+                                <h1 class="anton d-inline">RE.NECTION</h1>
+                            {% block login_text %}{% endblock %}
+                        </div>
+                        <div class="col-4 log-window">
+                            {% block login_window %}{% endblock %}
+                        </div>
+                    </div> 
+                </div>
+            </main>
+            <footer>
+                <p></p><small>&#169; 2020 RE.NECTION - Background provided by Pete Linforth on <a class="small" href="https://pixabay.com">Pixabay.com</a></small></p>
+            </footer>
+    {% endif %}
+            
+
+            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+            <script src="/static/scripts.js"></script>
+            {% block function_call %}{% endblock %}
+            {% block script %}{% endblock %}
+        </body>
+</html>

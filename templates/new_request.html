@@ -1,0 +1,1130 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    - New Request 
+{% endblock %}
+
+{% block section_title %}
+    New Request
+{% endblock %}
+
+{% block main %}
+    <div class="col-12">
+        <div class="row justify-content-center mt-5">
+            <i class="fas fa-user-plus form-step"></i>
+            <i class="fas fa-handshake form-step"></i>
+            <i class="fas fa-map-marked form-step"></i>
+            <i class="fas fa-list form-step"></i>
+            <i class="fas fa-list form-step"></i>
+            <i class="fas fa-check-double form-step"></i>
+        </div>
+        <div class="row justify-content-center">
+            <h3 class="tab-subheading" id="StepHeading"></h3>
+        </div>
+        <div class="row mt-1">
+            <div class="col-12">
+                <form action="/requests/new" method="post" id="NewRequestForm" autocomplete="off">
+                    <div class="row justify-content-center">
+        
+                        <!-- CLIENT -->
+                        <div class="col-8">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Main Info.</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Name">Name</label>
+                                                        <input type="text" class="form-control" id="Name" name="client_name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="LastName">Last Name</label>
+                                                        <input type="text" class="form-control" id="LastName" name="client_last_name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="ClientId">ID</label>
+                                                        <input type="text" class="form-control" id="ClientId" name="client_id">
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <small class="invalid d-none" id="ClientMainInfoMissing">Red fields are missing !</small>
+                                        </div>
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Contact</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Phone">Phone</label>
+                                                        <input type="text" class="form-control" id="Phone" name="client_phone">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Email">Email</label>
+                                                        <input type="text" class="form-control" id="Email" name="client_email">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small class="invalid d-none" id="ClientContactInfoMissing">Specify at least one contact means !</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- OPERATION -->
+                        <div class="col-8">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-7 px-4">
+                                            <h3 class="box-subheading">Petition</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group" style="margin-bottom: 5px;">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input" id="Buy" name="buy" value="1" onclick="enableFormInput(this.id, 'MinBuyBudget'), enableFormInput(this.id, 'MaxBuyBudget'), showInput(this.id, 'ROI')">
+                                                            <label for="Buy" class="custom-control-label">Buy</label>
+                                                        </div>  
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group" >
+                                                        <div class="input-group" aria-describedby="MinBuyBudgetHT">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">UF</div>
+                                                            </div>
+                                                            <input type="number" class="form-control" id="MinBuyBudget" name="min_buy_budget" placeholder="Min Budget" disabled>
+                                                        </div>
+                                                        <small class="form-text text-muted" id="MinBuyBudgetHT">Min</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group" aria-describedby="MaxBuyBudgetHT">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">UF</div>
+                                                            </div>
+                                                            <input type="number" class="form-control" id="MaxBuyBudget" name="max_buy_budget" placeholder="Max Budget" disabled>
+                                                        </div>
+                                                        <small class="form-text text-muted" id="MaxBuyBudgetHT">Max</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group" style="margin-bottom: 5px;"> 
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input" id="Rent" name="rent" value="1" onclick="enableFormInput(this.id, 'MinRentBudget'), enableFormInput(this.id, 'MaxRentBudget')">
+                                                            <label for="Rent" class="custom-control-label">Rent</label>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group" aria-describedby="MinRentBudgetHT">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">$</div>
+                                                            </div>
+                                                            <input type="number" class="form-control" id="MinRentBudget" name="min_rent_budget" placeholder="Min Budget" disabled>
+                                                        </div>
+                                                        <small class="form-text text-muted" id="MinRentBudgetHT">Min</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group" aria-describedby="MaxRentBudgetHT">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">$</div>
+                                                            </div>
+                                                            <input type="number" class="form-control" id="MaxRentBudget" name="max_rent_budget" placeholder="Max Budget" disabled>
+                                                        </div>
+                                                        <small class="form-text text-muted" id="MaxRentBudgetHT">Max</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small class="invalid d-none" id="NoDealSelected">Select at least one deal type !</small>
+                                        </div>
+                                        <div class="col-5 px-4">
+                                            <h3 class="box-subheading">Property Type</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeApartment" name="departamento" value="departamento">
+                                                            <label for="TypeApartment" class="custom-control-label">Apartment</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeCommercial" name="comercial" value="comercial">
+                                                            <label for="TypeCommercial" class="custom-control-label">Commercial</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeHouse" name="casa" value="casa">
+                                                            <label for="TypeHouse" class="custom-control-label">House</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeIndustrial" name="industrial" value="industrial">
+                                                            <label for="TypeIndustrial" class="custom-control-label">Industrial</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeLand" name="terreno" value="terreno">
+                                                            <label for="TypeLand" class="custom-control-label">Land</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeOffice" name="oficina" value="oficina">
+                                                            <label for="TypeOffice" class="custom-control-label">Office</label>
+                                                        </div>   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small class="invalid d-none" id="PropertyTypesError">Select at least one property type !</small> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- LOCATION -->
+                        <div class="col-8">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row" id="NewLocationInput">
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Reference</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Region1">Region</label>
+                                                        <select class="custom-select" name="region1" id="Region1" onchange="showDistricts(this.value, 'District1', 'Commune1', 'checkbox')">
+                                                            <option value="" selected disabled>--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="District1">District</label>
+                                                        <select class="custom-select" name="district1" id="District1" onchange="showCommunes(this.value, 'Commune1', 'checkbox')">
+                                                            <option value="" selected disabled>--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Commune1">Commune</label>
+                                                        <div  id="Commune1" class="checkbox-group" style="padding-left: 30px;">
+                                                            <!-- Generated by Javascript -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-4" id="NewLocationDiv">
+                                            <button class="btn" style="padding: 0px; margin: 0px;" type="button" id="NewLocation" onclick="addLocationInput(this.id)" disabled>
+                                                <h3 class="box-subheading"><strong>+ Add New</strong></h3>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- MAIN FEATURES -->
+                        <div class="col-10">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-6 px-5">
+                                            <h3 class="box-subheading">Set-Up</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Bedrooms">Bedrooms</label>
+                                                        <div class="form-row" id="Bedrooms">
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MinBedrooms" name="dormitorios_min" placeholder="0" min="0" aria-describedby="MinBedroomsHT">
+                                                                <small class="form-text text-muted" id="MinBedroomsHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MaxBedrooms" name="dormitorios_max" placeholder="0" min="0" aria-describedby="MaxBedroomsHT">
+                                                                <small class="form-text text-muted" id="MaxBedroomsHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Bathrooms">Bathrooms</label>
+                                                        <div class="form-row" id="Bathrooms">
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MinBathrooms" name="banos_min" placeholder="0" min="0" aria-describedby="MinBathroomsHT">
+                                                                <small class="form-text text-muted" id="MinBathroomsHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MaxBathrooms" name="banos_max" placeholder="0" min="0" aria-describedby="MaxBathroomsHT">
+                                                                <small class="form-text text-muted" id="MaxBathroomsHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="OnSuite">On Suite</label>
+                                                        <div class="form-row" id="OnSuite">
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MinOnSuite" name="banos_suite_min" placeholder="0" min="0" aria-describedby="MinOnSuiteHT">
+                                                                <small class="form-text text-muted" id="MinOnSuiteHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MaxOnSuite" name="banos_suite_max" placeholder="0" min="0" aria-describedby="MaxOnSuiteHT">
+                                                                <small class="form-text text-muted" id="MaxOnSuiteHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="ParkingLots">Parking Lots</label>
+                                                        <div class="form-row" id="ParkingLots">
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MinParkingLots" name="estacionamientos_min" placeholder="0" min="0" aria-describedby="MinParkingLotsHT">
+                                                                <small class="form-text text-muted" id="MinParkingLotsHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MaxParkingLots" name="estacionamientos_max" placeholder="0" min="0" aria-describedby="MaxParkingLotsHT">
+                                                                <small class="form-text text-muted" id="MaxParkingLotsHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Storage">Storage</label>
+                                                        <div class="form-row" id="Storage">
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MinStorage" name="bodegas_min" placeholder="0" min="0" aria-describedby="MinStorageHT">
+                                                                <small class="form-text text-muted" id="MinStorageHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MaxStorage" name="bodegas_max" placeholder="0" min="0" aria-describedby="MaxStorageHT">
+                                                                <small class="form-text text-muted" id="MaxStorageHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="ROI" style="display: none;">
+                                                <h3 class="box-subheading">Return On Investment Expected</h3>
+                                                <hr class="mt-0">
+                                                <div class="form-row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <div class="input-group" aria-describedby="ROIHT">
+                                                                <input type="number" class="form-control" id="ReturnOnInvestment" name="rentabilidad_min">
+                                                                <div class="input-group-append">
+                                                                    <div class="input-group-text">%</div>
+                                                                </div>
+                                                            </div>
+                                                            <small id="ROIHT" class="form-text text-muted">Set the minimum ROI expected</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-5">
+                                            <h3 class="box-subheading">Surface Area</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Useful">Useful</label>
+                                                        <div class="form-row" id="Useful">
+                                                            <div class="col-6">
+                                                                <div class="input-group" aria-describedby="MinSurfaceHT">
+                                                                    <input type="number" class="form-control" id="MinSurface" name="superficie_u_min" placeholder="0" min="0">
+                                                                    <div class="input-group-append">
+                                                                        <div class="input-group-text">m&sup2;</div>
+                                                                    </div>
+                                                                </div> 
+                                                                <small class="form-text text-muted" id="MinSurfaceHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="input-group" aria-describedby="MaxSurfaceHT">
+                                                                    <input type="number" class="form-control" id="MaxSurface" name="superficie_u_max" placeholder="0" min="0">
+                                                                    <div class="input-group-append">
+                                                                        <div class="input-group-text">m&sup2;</div>
+                                                                    </div>
+                                                                </div>
+                                                                <small class="form-text text-muted" id="MaxSurfaceHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="TotalSurface">Garden - Terrace</label>
+                                                        <div class="form-row" id="TotalSurface">
+                                                            <div class="col-6">
+                                                                <div class="input-group" aria-describedby="MinTotalSurfaceHT">
+                                                                    <input type="number" class="form-control" id="MinTotalSurface" name="superficie_t_min" placeholder="0" min="0">
+                                                                    <div class="input-group-append">
+                                                                        <div class="input-group-text">m&sup2;</div>
+                                                                    </div>
+                                                                </div> 
+                                                                <small class="form-text text-muted" id="MinTotalSurfaceHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="input-group" aria-describedby="MaxTotalSurfaceHT">
+                                                                    <input type="number" class="form-control" id="MaxTotalSurface" name="superficie_t_max" placeholder="0" min="0">
+                                                                    <div class="input-group-append">
+                                                                        <div class="input-group-text">m&sup2;</div>
+                                                                    </div>
+                                                                </div>
+                                                                <small class="form-text text-muted" id="MaxTotalSurfaceHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Expenses</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="CommonExpenses">Common Expenses</label>
+                                                        <div class="form-row" id="CommonExpenses">
+                                                            <div class="col-6">
+                                                                <div class="input-group" aria-describedby="MinCommonExpensesHT">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">$</div>
+                                                                    </div>
+                                                                    <input type="number" class="form-control" id="MinCommonExpenses" name="ggcc_min" placeholder="0" min="0"> 
+                                                                </div> 
+                                                                <small class="form-text text-muted" id="MinCommonExpensesHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="input-group" aria-describedby="MaxCommonExpensesHT">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">$</div>
+                                                                    </div>
+                                                                    <input type="number" class="form-control" id="MaxCommonExpenses" name="ggcc_max" placeholder="0" min="0">
+                                                                </div>
+                                                                <small class="form-text text-muted" id="MaxCommonExpensesHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Taxation">Taxation</label>
+                                                        <div class="form-row" id="Taxation">
+                                                            <div class="col-6">
+                                                                <div class="input-group" aria-describedby="MinTaxationHT">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">$</div>
+                                                                    </div>
+                                                                    <input type="number" class="form-control" id="MinTaxation" name="contribuciones_min" placeholder="0" min="0"> 
+                                                                </div> 
+                                                                <small class="form-text text-muted" id="MinTaxationHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="input-group" aria-describedby="MaxTaxationHT">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">$</div>
+                                                                    </div>
+                                                                    <input type="number" class="form-control" id="MaxTaxation" name="contribuciones_max" placeholder="0" min="0">
+                                                                </div>
+                                                                <small class="form-text text-muted" id="MaxTaxationHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                            <h3 class="box-subheading">Condition</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <small id="ConditionText" class="form-text text-muted" style="margin-bottom: 10px;">Slide to select from worst to best:</small>
+                                                    <input type="range" class="custom-range" min="1" max="5" id="MinCondition" value="1" aria-describedby="ConditionText" name="estado_min" onchange="updateValueField(this.value, 'MinConditionValue', 'request')">
+                                                    <input type="range" class="custom-range" min="1" max="5" id="MaxCondition" value="5" aria-describedby="ConditionText" name="estado_max" onchange="updateValueField(this.value, 'MaxConditionValue', 'request')">
+                                                </div>
+                                                <div class="col-6">
+                                                    <div id="MinConditionValue" style="margin-top: 10px; color: rgb(255, 0, 0);"><small><strong>Full Renovarion</strong></small></div>
+                                                </div>
+                                                <div class="col-6 d-flex justify-content-end">
+                                                    <div id="MaxConditionValue" style="margin-top: 10px; color: rgb(17, 161, 0);"><small><strong>Excellent</strong></small></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- SPECIFIC FEATURES -->
+                        <div class="col-10">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-6 px-5">
+                                            <h3 class="box-subheading">Overall Specs</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="Orientation">Orientation:</label>
+                                                        <div id="Orientation" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="OrientationN" name="orientacion" value="N">
+                                                                <label for="OrientationN" class="custom-control-label">N</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="OrientationNE" name="orientacion" value="NE">
+                                                                <label for="OrientationNE" class="custom-control-label">NE</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="OrientE" name="orientacion" value="E">
+                                                                <label for="OrientE" class="custom-control-label">E</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="OrientSE" name="orientacion" value="SE">
+                                                                <label for="OrientSE" class="custom-control-label">SE</label>
+                                                            </div> 
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="OrientS" name="orientacion" value="S">
+                                                                <label for="OrientS" class="custom-control-label">S</label>
+                                                            </div> 
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="OrientSW" name="orientacion" value="SW">
+                                                                <label for="OrientSW" class="custom-control-label">SW</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="OrientW" name="orientacion" value="W">
+                                                                <label for="OrientW" class="custom-control-label">W</label>
+                                                            </div>  
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="OrientNW" name="orientacion" value="NW">
+                                                                <label for="OrientNW" class="custom-control-label">NW</label>
+                                                            </div>  
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="ViewType">View Type:</label>
+                                                        <div id="ViewType" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ViewNone" name="tipo_vista" value="None">
+                                                                <label for="ViewNone" class="custom-control-label">None</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ViewCity" name="tipo_vista" value="City">
+                                                                <label for="ViewCity" class="custom-control-label">City</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ViewForest" name="tipo_vista" value="Forest">
+                                                                <label for="ViewForest" class="custom-control-label">Forest</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ViewMountains" name="tipo_vista" value="Mountains">
+                                                                <label for="ViewMountains" class="custom-control-label">Mountains</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ViewLake" name="tipo_vista" value="Lake">
+                                                                <label for="ViewLake" class="custom-control-label">Lake</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ViewRiver" name="tipo_vista" value="River">
+                                                                <label for="ViewRiver" class="custom-control-label">River</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ViewSea" name="tipo_vista" value="Sea">
+                                                                <label for="ViewSea" class="custom-control-label">Sea</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Year">Year</label>
+                                                        <div class="form-row" id="Year">
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MinYear" name="ano_construccion_min" placeholder="0" min="0" aria-describedby="MinYearHT">
+                                                                <small class="form-text text-muted" id="MinYearHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MaxYear" name="ano_construccion_max" placeholder="0" min="0" aria-describedby="MaxYearHT">
+                                                                <small class="form-text text-muted" id="MaxYearHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="ConstructionMaterial">Structure</label>
+                                                        <div id="ConstructionMaterial" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="StructAdobe" name="estructura" value="Adobe">
+                                                                <label for="StructAdobe" class="custom-control-label">Adobe</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="StructConcrete" name="estructura" value="Concrete">
+                                                                <label for="StructConcrete" class="custom-control-label">Concrete</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="StructBrick" name="estructura" value="Brick">
+                                                                <label for="StructBrick" class="custom-control-label">Masonry - Brick</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="StructBlock" name="estructura" value="Block">
+                                                                <label for="StructBlock" class="custom-control-label">Masonry - Other Block</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="StructPrefab" name="estructura" value="Prefab">
+                                                                <label for="StructPrefab" class="custom-control-label">Prefab</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="StructSteel" name="estructura" value="Steel">
+                                                                <label for="StructSteel" class="custom-control-label">Steel</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="StructWood" name="estructura" value="Wood">
+                                                                <label for="StructWood" class="custom-control-label">Wood</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="StructOther" name="estructura" value="Other">
+                                                                <label for="StructOther" class="custom-control-label">Other</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Floors">Floors</label>
+                                                        <div class="form-row" id="Floors">
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MinFloors" name="pisos_construidos_min" placeholder="0" min="0" aria-describedby="MinFloorsHT">
+                                                                <small class="form-text text-muted" id="MinFloorsHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MaxFloors" name="pisos_construidos_max" placeholder="0" min="0" aria-describedby="MaxFloorsHT">
+                                                                <small class="form-text text-muted" id="MaxFloorsHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="OnFloor">On Floor</label>
+                                                        <div class="form-row" id="OnFloor">
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MinOnFloor" name="piso_min" placeholder="0" min="0" aria-describedby="MinOnFloorHT">
+                                                                <small class="form-text text-muted" id="MinOnFloorHT">Min</small>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <input type="number" class="form-control" id="MaxOnFloor" name="piso_max" placeholder="0" min="0" aria-describedby="MaxOnFloorHT">
+                                                                <small class="form-text text-muted" id="MaxOnFloorHT">Max</small> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Layout</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="LivingDiningLayout">Living - Dining Room</label>
+                                                        <select class="custom-select" id="LivingDiningLayout" name="living_comedor">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Apart">Apart Space</option>
+                                                            <option value="Shared">Shared Spaces</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="KitchenType">Kitchen Type</label>
+                                                        <div id="KitchenType" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="KitchenOpen" name="tipo_cocina" value="Open">
+                                                                <label for="KitchenOpen" class="custom-control-label">Open</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="KitchenIncorporated" name="tipo_cocina" value="Incorporated">
+                                                                <label for="KitchenIncorporated" class="custom-control-label">Incorporated</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="KitchenIsolated" name="tipo_cocina" value="Isolated">
+                                                                <label for="KitchenIsolated" class="custom-control-label">Isolated</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="KitchenLayout">Kitchen Layout</label>
+                                                        <div id="KitchenLayout" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="KitchenSingle" name="distribucion_cocina" value="Single">
+                                                                <label for="KitchenSingle" class="custom-control-label">Sigle Row</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="KitchenGallery" name="distribucion_cocina" value="Gallery">
+                                                                <label for="KitchenGallery" class="custom-control-label">Gallery</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="KitchenIsland" name="distribucion_cocina" value="Island">
+                                                                <label for="KitchenIsland" class="custom-control-label">Island</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="KitchenL" name="distribucion_cocina" value="L">
+                                                                <label for="KitchenL" class="custom-control-label">L</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="KitchenU" name="distribucion_cocina" value="U">
+                                                                <label for="KitchenU" class="custom-control-label">U</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="KitchenG" name="distribucion_cocina" value="G">
+                                                                <label for="KitchenG" class="custom-control-label">G</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-5">
+                                            <h3 class="box-subheading">Flooring</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="FlooringBedroom">Bedrooms</label>
+                                                        <div id="FlooringBedroom" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBedroomCarpet" name="piso_dormitorios" value="Carpet">
+                                                                <label for="FlooringBedroomCarpet" class="custom-control-label">Carpet</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBedroomCeramic" name="piso_dormitorios" value="Ceramic">
+                                                                <label for="FlooringBedroomCeramic" class="custom-control-label">Ceramic</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBedroomLaminate" name="piso_dormitorios" value="Laminate">
+                                                                <label for="FlooringBedroomLaminate" class="custom-control-label">Laminate</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBedroomNaturalStone" name="piso_dormitorios" value="Stone">
+                                                                <label for="FlooringBedroomNaturalStone" class="custom-control-label">Natural Stone</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBedroomPorcelain" name="piso_dormitorios" value="Porcelain">
+                                                                <label for="FlooringBedroomPorcelain" class="custom-control-label">Porcelain</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBedroomPoured" name="piso_dormitorios" value="Poured">
+                                                                <label for="FlooringBedroomPoured" class="custom-control-label">Poured</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBedroomTimber" name="piso_dormitorios" value="Timber">
+                                                                <label for="FlooringBedroomTimber" class="custom-control-label">Timber</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBedroomVinyl" name="piso_dormitorios" value="Vinyl">
+                                                                <label for="FlooringBedroomVinyl" class="custom-control-label">Vinyl</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBedroomWooden" name="piso_dormitorios" value="Wooden">
+                                                                <label for="FlooringBedroomWooden" class="custom-control-label">Wooden</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="FlooringBathroom">Bathrooms</label>
+                                                        <div id="FlooringBathroom" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBathroomCarpet" name="piso_banos" value="Carpet">
+                                                                <label for="FlooringBathroomCarpet" class="custom-control-label">Carpet</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBathroomCeramic" name="piso_banos" value="Ceramic">
+                                                                <label for="FlooringBathroomCeramic" class="custom-control-label">Ceramic</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBathroomLaminate" name="piso_banos" value="Laminate">
+                                                                <label for="FlooringBathroomLaminate" class="custom-control-label">Laminate</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBathroomNaturalStone" name="piso_banos" value="Stone">
+                                                                <label for="FlooringBathroomNaturalStone" class="custom-control-label">Natural Stone</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBathroomPorcelain" name="piso_banos" value="Porcelain">
+                                                                <label for="FlooringBathroomPorcelain" class="custom-control-label">Porcelain</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBathroomPoured" name="piso_banos" value="Poured">
+                                                                <label for="FlooringBathroomPoured" class="custom-control-label">Poured</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBathroomTimber" name="piso_banos" value="Timber">
+                                                                <label for="FlooringBathroomTimber" class="custom-control-label">Timber</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBathroomVinyl" name="piso_banos" value="Vinyl">
+                                                                <label for="FlooringBathroomVinyl" class="custom-control-label">Vinyl</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringBathroomWooden" name="piso_banos" value="Wooden">
+                                                                <label for="FlooringBathroomWooden" class="custom-control-label">Wooden</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="FlooringLiving">Living Room</label>
+                                                        <div id="FlooringLiving" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringLivingCarpet" name="piso_living_comedor" value="Carpet">
+                                                                <label for="FlooringLivingCarpet" class="custom-control-label">Carpet</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringLivingCeramic" name="piso_living_comedor" value="Ceramic">
+                                                                <label for="FlooringLivingCeramic" class="custom-control-label">Ceramic</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringLivingLaminate" name="piso_living_comedor" value="Laminate">
+                                                                <label for="FlooringLivingLaminate" class="custom-control-label">Laminate</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringLivingNaturalStone" name="piso_living_comedor" value="Stone">
+                                                                <label for="FlooringLivingNaturalStone" class="custom-control-label">Natural Stone</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringLivingPorcelain" name="piso_living_comedor" value="Porcelain">
+                                                                <label for="FlooringLivingPorcelain" class="custom-control-label">Porcelain</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringLivingPoured" name="piso_living_comedor" value="Poured">
+                                                                <label for="FlooringLivingPoured" class="custom-control-label">Poured</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringLivingTimber" name="piso_living_comedor" value="Timber">
+                                                                <label for="FlooringLivingTimber" class="custom-control-label">Timber</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringLivingVinyl" name="piso_living_comedor" value="Vinyl">
+                                                                <label for="FlooringLivingVinyl" class="custom-control-label">Vinyl</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringLivingWooden" name="piso_living_comedor" value="Wooden">
+                                                                <label for="FlooringLivingWooden" class="custom-control-label">Wooden</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="FlooringKitchen">Kitchen</label>
+                                                        <div id="FlooringKitchen" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringKitchenCarpet" name="piso_cocina" value="Carpet">
+                                                                <label for="FlooringKitchenCarpet" class="custom-control-label">Carpet</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringKitchenCeramic" name="piso_cocina" value="Ceramic">
+                                                                <label for="FlooringKitchenCeramic" class="custom-control-label">Ceramic</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringKitchenLaminate" name="piso_cocina" value="Laminate">
+                                                                <label for="FlooringKitchenLaminate" class="custom-control-label">Laminate</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringKitchenNaturalStone" name="piso_cocina" value="Stone">
+                                                                <label for="FlooringKitchenNaturalStone" class="custom-control-label">Natural Stone</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringKitchenPorcelain" name="piso_cocina" value="Porcelain">
+                                                                <label for="FlooringKitchenPorcelain" class="custom-control-label">Porcelain</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringKitchenPoured" name="piso_cocina" value="Poured">
+                                                                <label for="FlooringKitchenPoured" class="custom-control-label">Poured</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringKitchenTimber" name="piso_cocina" value="Timber">
+                                                                <label for="FlooringKitchenTimber" class="custom-control-label">Timber</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringKitchenVinyl" name="piso_cocina" value="Vinyl">
+                                                                <label for="FlooringKitchenVinyl" class="custom-control-label">Vinyl</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="FlooringKitchenWooden" name="piso_cocina" value="Wooden">
+                                                                <label for="FlooringKitchenWooden" class="custom-control-label">Wooden</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Heating System</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="KitchenHeating">Kitchen</label>
+                                                        <div id="KitchenHeating" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingKitchenElectric" name="encimera" value="Electric">
+                                                                <label for="HeatingKitchenElectric" class="custom-control-label">Electric</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingKitchenFirewood" name="encimera" value="Firewood">
+                                                                <label for="HeatingKitchenFirewood" class="custom-control-label">Firewood</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingKitchenGas" name="encimera" value="Gas">
+                                                                <label for="HeatingKitchenGas" class="custom-control-label">Gas</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="WaterHeating">Water</label>
+                                                        <div id="WaterHeating" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingWaterBoiler" name="agua_caliente" value="Boiler">
+                                                                <label for="HeatingWaterBoiler" class="custom-control-label">Boiler</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingWaterElectric" name="agua_caliente" value="Electric">
+                                                                <label for="HeatingWaterElectric" class="custom-control-label">Electric</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingWaterGas" name="agua_caliente" value="Gas">
+                                                                <label for="HeatingWaterGas" class="custom-control-label">Gas</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingWaterSolar" name="agua_caliente" value="Solar">
+                                                                <label for="HeatingWaterSolar" class="custom-control-label">Solar</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Heating">Heating</label>
+                                                        <div id="Heating" class="checkbox-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingElectric" name="calefaccion" value="Electric">
+                                                                <label for="HeatingElectric" class="custom-control-label">Electric</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingFirewood" name="calefaccion" value="Firewood">
+                                                                <label for="HeatingFirewood" class="custom-control-label">Firewood</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingGas" name="calefaccion" value="Gas">
+                                                                <label for="HeatingGas" class="custom-control-label">Gas</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingRadiator" name="calefaccion" value="Radiator">
+                                                                <label for="HeatingRadiator" class="custom-control-label">Radiator</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="HeatingUnderfloor" name="calefaccion" value="Underfloor">
+                                                                <label for="HeatingUnderfloor" class="custom-control-label">UnderFloor</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- EQUIPMENT -->
+                        <div class="col-8">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h3 class="box-subheading">Overall</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Furnished" name="amoblado" value="1">
+                                                        <label class="custom-control-label" for="Furnished">Furnished</label>
+                                                    </div>
+                                                </div>     
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="OnSiteLaundry" name="logia" value="1">
+                                                        <label class="custom-control-label" for="OnSiteLaundry">On-Site Laundry</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="DailyDining" name="comedor_diario" value="1">
+                                                        <label class="custom-control-label" for="DailyDining">Daily Dining</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Building</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Condominium" name="condominio" value="1">
+                                                        <label class="custom-control-label" for="Condominium">Condominium</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Janitor" name="conserje" value="1">
+                                                        <label class="custom-control-label" for="Janitor">Janitor</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Elevator" name="ascensor" value="1">
+                                                        <label class="custom-control-label" for="Elevator">Elevator</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="VisitorParking" name="estacionamiento_visitas" value="1">
+                                                        <label class="custom-control-label" for="VisitorParking">Visitor Parking</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Laundry" name="lavanderia" value="1">
+                                                        <label class="custom-control-label" for="Laundry">Laundry</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Connections</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="PipeGas" name="gas_caneria" value="1">
+                                                        <label class="custom-control-label" for="PipeGas">Pipe Gas</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="WMConnection" name="conexion_lavadora" value="1">
+                                                        <label class="custom-control-label" for="WMConnection">For Washing Machine</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <h3 class="box-subheading">Windows</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="DoubleGlazed" name="termopanel" value="1">
+                                                        <label class="custom-control-label" for="DoubleGlazed">Double Glazed</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="BathroomWindow" name="ventana_bano" value="1">
+                                                        <label class="custom-control-label" for="BathroomWindow">On Bathroom</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Amusement</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Barbeque" name="quincho" value="1">
+                                                        <label class="custom-control-label" for="Barbeque">Barbeque Area</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Gym" name="gimnasio" value="1">
+                                                        <label class="custom-control-label" for="Gym">Gym</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="LoungeRoom" name="salon_multiuso" value="1">
+                                                        <label class="custom-control-label" for="LoungeRoom">Lounge Room</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Pool" name="piscina" value="1">
+                                                        <label class="custom-control-label" for="Pool">Pool</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Rooftop" name="azotea_privada" value="1">
+                                                        <label class="custom-control-label" for="Rooftop">Rooftop</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Sauna" name="sauna" value="1">
+                                                        <label class="custom-control-label" for="Sauna">Sauna</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+        
+                    </div>
+                    <div class="row justify-content-center mt-5">
+                        <button type="button" class="log-btn mx-1" id="PrevBtn" onclick="nextPrev(-1)">Previuos</button>
+                        <button type="button" class="log-btn mx-1" id="NextBtn" onclick="nextPrev(1)">Next</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+
+{% endblock %}
+
+{% block function_call %}
+    <script>
+        showRegions('Region1'); 
+    </script>
+{% endblock %}
+
+{% block script %}
+    <script src="/static/multistepForm.js"></script>
+{% endblock %}
+

@@ -1,0 +1,253 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    - My Listings
+{% endblock %}
+
+{% block section_title %}
+    My Listings
+{% endblock %}
+
+{% block main %}
+    <div class="col-12">
+        <h3 class="tab-subheading">All Time Summary</h3>
+        <div class="row">
+            <div class="col-4">
+                <div class="summary-box box-turquoise">
+                    <h4 class="box-heading">Listed</h4>
+                    <div class="pl-3">
+                        <ul>
+                            <li><span class="box-main-number">{{ resumen["activas"] }}</span> Active Properties</li>
+                            <li>Inactive: {{ resumen["inactivas"] }}</li>
+                            <li>Total: {{ resumen["activas"] + resumen["inactivas"] }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="summary-box box-orange">
+                    <h4 class="box-heading">For Sale</h4>
+                    <div class="pl-3">
+                        <ul>
+                            <li><span class="box-main-number">{{ resumen["ventas_activas"] }}</span> Active Properties</li>
+                            <li>Inactive: {{ resumen["ventas_inactivas"] }}</li>
+                            <li>Total: {{ resumen["ventas_activas"] + resumen["ventas_inactivas"] }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="summary-box box-purple">
+                    <h4 class="box-heading">For Lease</h4>
+                    <div class="pl-3">
+                        <ul>
+                            <li><span class="box-main-number">{{ resumen["arriendo_activas"] }}</span> Active Properties</li>
+                            <li>Inactive: {{ resumen["arriendo_inactivas"] }}</li>
+                            <li>Total: {{ resumen["arriendo_activas"] + resumen["arriendo_inactivas"] }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="tab-subheading">Browse</h3>
+        <div class="form-row content-box">
+            <div class="col-8">
+                <label for="SearchBar">Search</label>
+                <div class="input-group" id="SearchBar">
+                    <input type="text" class="form-control" placeholder="">
+                    <div class="input-group-append">
+                        <div class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 d-flex justify-content-center text-center">
+                <div class="form-group">
+                    <label for="StatusFilter">Status</label>
+                    <div class="d-block" id="StatusFilter">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Client Status Filter">
+                            <button type="button" class="btn btn-turquoise">Active</button>
+                            <button type="button" class="btn btn-gray">Inactive</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 d-flex justify-content-center text-center">
+                <div class="form-group">
+                    <label for="OperationType">Operation Type</label>
+                    <div class="d-block" id="OperationType">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Listing Operation Filter">
+                            <button type="button" class="btn btn-orange">Sale</button>
+                            <button type="button" class="btn btn-purple">Lease</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-4">
+            {% for propiedad in propiedades %}
+                <div class="col-12 mt-2">
+                    <div class="content-box">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <ul>
+                                    {% if propiedad["depto"] %}
+                                        <li><strong>{{ propiedad["calle"] }} {{ propiedad["numero"] }} Apt. {{ propiedad["depto"] }}</strong></li>
+                                    {% else %}
+                                        <li><strong>{{ propiedad["calle"] }} {{ propiedad["numero"] }}</strong></li>
+                                    {% endif %}
+                                    <li><small>{{ propiedad["comuna"] }}, {{ propiedad["region"] }}</small></li>
+                                </ul>
+                            </div>
+                            <div class="col-4 d-flex justify-content-center">
+                                <div>
+                                    <a href="#AddOperation{{ propiedad['id'] }}" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="AddOperation{{ propiedad['id'] }}" class="btn btn-sm btn-outline-info d-inline">Add Op.</a>
+                                    <a href="/listings/browse/listing-id={{ propiedad['id'] }}" class="btn btn-sm btn-outline-secondary d-inline">Details</a>
+                                    <button class="btn btn-sm btn-outline-danger d-inline" onclick="listingAlert({{propiedad['id']}}, 'delete')">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mt-2">
+                        <div class="row align-items-center">
+                            <div class="col-2 d-flex justify-content-center">
+                                <div>
+                                    <ul>
+                                        {% for tipo in propiedad["tipo propiedad"] %}
+                                            <li>{{ tipo }}</li>
+                                        {% endfor %}
+                                        <li><small>{{ propiedad["superficie_u"] }} - {{propiedad["superficie_u"] + propiedad["superficie_t"]}} m2</small></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-center">
+                                <div class="div">
+                                    <ul>
+                                        {% for operacion in propiedad["operaciones"] %}
+                                            {% if operacion["estado"] == 1 %}
+                                                {% if operacion["tipo"] == 'Sale' %}
+                                                    <li class="orange-text"><button class="btn-status btn-orange-outline my-1" onclick="listingAlert({{operacion['id']}}, 'turnOff')">On</button> Sale - UF {{operacion["precio"]}}</li>
+                                                {% else %}
+                                                    <li class="purple-text"><button class="btn-status btn-purple-outline my-1" onclick="listingAlert({{operacion['id']}}, 'turnOff')">On</button> Lease - $ {{operacion["precio"]}}</li>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if operacion["tipo"] == 'Sale' %}
+                                                    <li class="gray-text"><button class="btn-status btn-gray-outline my-1" disabled>Off</button> Sale - UF {{operacion["precio"]}}</li>
+                                                {% else %}
+                                                    <li class="gray-text"><button class="btn-status btn-gray-outline my-1" disabled>Off</button> Lease - $ {{operacion["precio"]}}</li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    <div class="row">
+                                        <div class="col-3 d-flex justify-content-center">
+                                            <ul class="center">
+                                                <li>{{ propiedad["dormitorios"] }}</li>
+                                                <li><small>BD.</small></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-3 d-flex justify-content-center">
+                                            <ul class="center"> 
+                                                <li>{{ propiedad["banos"] }}</li>
+                                                <li><small>BTH.</small></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-3 d-flex justify-content-center">
+                                            <ul class="center">
+                                                <li>{{ propiedad["estacionamientos"] }}</li>
+                                                <li><small>PK.</small></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-3 d-flex justify-content-center">
+                                            <ul class="center">
+                                                <li>{{ propiedad["bodegas"] }}</li>
+                                                <li><small>STG.</small></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 d-flex justify-content-center">
+                                <div>
+                                    <ul>
+                                        <li>{{ propiedad["nombre"] }} {{ propiedad["apellido"] }}</li>
+                                        <li><small>{{ propiedad["ci"] }}</small></li>
+                                        {% if propiedad["email"] %}
+                                            <li><small>{{ propiedad["email"] }}</small></li>
+                                        {% endif %}
+                                        {% if propiedad["telefono"] %}
+                                            <li><small>{{ propiedad["telefono"] }}</small></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <form action="/listings/add-operation/property-id={{ propiedad['id'] }}" method="post">
+                            <div class="row align-items-center collapse justify-content-center mt-4" id="AddOperation{{ propiedad['id'] }}">
+                                <div class="col-12">
+                                    <small><strong>New Operation</strong></small>
+                                </div>
+                                <div class="col-12">
+                                    <hr class="mt-2">
+                                </div>
+                                <div class="col-1">
+                                    <span>Deal:</span>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-row">
+                                        <div class="col-12">
+                                            <div class="form-group" style="margin-bottom: 5px;">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="Sell{{ propiedad['id'] }}" name="sell{{ propiedad['id'] }}" value="1" onclick="enableFormInput(this.id, 'SellPrice{{ propiedad['id'] }}')">
+                                                    <label for="Sell{{ propiedad['id'] }}" class="custom-control-label orange-text">Sell</label>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">UF</div>
+                                                    </div>
+                                                    <input type="number" class="form-control" id="SellPrice{{ propiedad['id'] }}" name="sell_price{{ propiedad['id'] }}" placeholder="Price" disabled oninput="this.className = 'form-control'">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-row">
+                                        <div class="col-12">
+                                            <div class="form-group" style="margin-bottom: 5px;"> 
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="Rent{{ propiedad['id'] }}" name="rent{{ propiedad['id'] }}" value="1" onclick="enableFormInput(this.id, 'RentPrice{{ propiedad['id'] }}')">
+                                                    <label for="Rent{{ propiedad['id'] }}" class="custom-control-label purple-text">Rent</label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">$</div>
+                                                    </div>
+                                                    <input type="number" class="form-control" id="RentPrice{{ propiedad['id'] }}" name="rent_price{{ propiedad['id'] }}" placeholder="Rental Fee" disabled oninput="this.className = 'form-control'">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    <button type="submit" class="btn btn-sm btn-outline-info" style="transform:translateY(20%);">Save !</button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

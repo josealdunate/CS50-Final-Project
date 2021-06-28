@@ -1,0 +1,762 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    - New Listing 
+{% endblock %}
+
+{% block section_title %}
+    New Listing
+{% endblock %}
+
+{% block main %}
+    <div class="col-12">
+        <div class="row justify-content-center mt-5">
+            <i class="fas fa-user-plus form-step"></i>
+            <i class="fas fa-handshake form-step"></i>
+            <i class="fas fa-map-marked form-step"></i>
+            <i class="fas fa-list form-step"></i>
+            <i class="fas fa-list form-step"></i>
+            <i class="fas fa-check-double form-step"></i>
+        </div>
+        <div class="row justify-content-center">
+            <h3 class="tab-subheading" id="StepHeading"></h3>
+        </div>
+        <div class="row mt-1">
+            <div class="col-12">
+                <form action="/listings/new" method="post" id="NewListingForm" autocomplete="off">
+                    <div class="row justify-content-center">
+                        
+                        <!-- OWNER -->
+                        <div class="col-8">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Main Info.</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Name">Name</label>
+                                                        <input type="text" class="form-control" id="Name" name="client_name" oninput="this.className = 'form-control'">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="LastName">Last Name</label>
+                                                        <input type="text" class="form-control" id="LastName" name="client_last_name" oninput="this.className = 'form-control'">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="ClientId">ID</label>
+                                                        <input type="text" class="form-control" id="ClientId" name="client_id" oninput="this.className = 'form-control'">
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <small class="invalid d-none" id="ClientMainInfoMissing">Red fields are missing !</small>
+                                        </div>
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Contact</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">            
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Phone">Phone</label>
+                                                        <input type="text" class="form-control" id="Phone" name="client_phone" oninput="this.className = 'form-control'">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Email">Email</label>
+                                                        <input type="text" class="form-control" id="Email" name="client_email" oninput="this.className = 'form-control'">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small class="invalid d-none" id="ClientContactInfoMissing">Specify at least one contact means !</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- OPERATION -->
+                        <div class="col-8">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Agreement</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group" style="margin-bottom: 5px;">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input" id="Sell" name="sell" value="1" onclick="enableFormInput(this.id, 'SellPrice'), showInput(this.id, 'ROI')">
+                                                            <label for="Sell" class="custom-control-label">Sell</label>
+                                                        </div>  
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group" style="margin-bottom: 30px;">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">UF</div>
+                                                            </div>
+                                                            <input type="number" class="form-control" id="SellPrice" name="sell_price" placeholder="Price" disabled oninput="this.className = 'form-control'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group" style="margin-bottom: 5px;"> 
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input" id="Rent" name="rent" value="1" onclick="enableFormInput(this.id, 'RentPrice')">
+                                                            <label for="Rent" class="custom-control-label">Rent</label>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">$</div>
+                                                            </div>
+                                                            <input type="number" class="form-control" id="RentPrice" name="rent_price" placeholder="Rental Fee" disabled oninput="this.className = 'form-control'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small class="invalid d-none" id="NoDealSelected">Select at least one contract type !</small>
+                                            <small class="invalid d-none" id="SpecifyPrice">Red fields are missing !</small>
+                                        </div>
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Property Type</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeApartment" name="departamento" value="departamento">
+                                                            <label for="TypeApartment" class="custom-control-label">Apartment</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeCommercial" name="comercial" value="comercial">
+                                                            <label for="TypeCommercial" class="custom-control-label">Commercial</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeHouse" name="casa" value="casa">
+                                                            <label for="TypeHouse" class="custom-control-label">House</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeIndustrial" name="industrial" value="industrial">
+                                                            <label for="TypeIndustrial" class="custom-control-label">Industrial</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeLand" name="terreno" value="terreno">
+                                                            <label for="TypeLand" class="custom-control-label">Land</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="TypeOffice" name="oficina" value="oficina">
+                                                            <label for="TypeOffice" class="custom-control-label">Office</label>
+                                                        </div>   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small class="invalid d-none" id="PropertyTypesError">Select at least one property type !</small> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- LOCATION -->
+                        <div class="col-8">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Reference</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Region">Region</label>
+                                                        <select class="custom-select" name="region" id="Region" onchange="showDistricts(this.value, 'District', 'Commune', 'single')">
+                                                            <option value="" selected disabled>--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="District">District</label>
+                                                        <select class="custom-select" name="district" id="District" onchange="showCommunes(this.value, 'Commune', 'single')">
+                                                            <option value="" selected disabled>--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Commune">Commune</label>
+                                                        <select class="custom-select" name="commune" id="Commune">
+                                                            <option value="">--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <small class="d-none invalid" id="ReferenceError">Please complete reference!</small>
+                                        </div>
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Adress</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Street">Street</label>
+                                                        <input type="text" class="form-control" id="Street" name="street" oninput="this.className = 'form-control'">
+                                                    </div> 
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="StreetNumber">Number</label>
+                                                        <input type="text" class="form-control" id="StreetNumber" name="street_number" oninput="this.className = 'form-control'">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="ApartmentNumber">Apt.</label>
+                                                        <input type="text" class="form-control" id="ApartmentNumber" name="apartment_number" oninput="this.className = 'form-control'">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small class="invalid d-none" id="AdressError">Red fields are missing !</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <!-- MAIN FEATURES -->
+                        <div class="col-10">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-6 px-5">
+                                            <h3 class="box-subheading">Set-Up</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Bedrooms">Bedrooms</label>
+                                                        <input type="number" class="form-control" id="Bedrooms" name="bedrooms" placeholder="0" min="0">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="Bathrooms">Bathrooms</label>
+                                                        <input type="number" class="form-control" id="Bathrooms" name="bathrooms" placeholder="0" min="0">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="Suites">On Suite</label>
+                                                        <input type="number" class="form-control" id="Suites" name="on_suites" placeholder="0" min="0">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="Parking">Parking Lots</label>
+                                                        <input type="number" class="form-control" id="Parking" name="parking" placeholder="0" min="0">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="Storage">Storage</label>
+                                                        <input type="number" class="form-control" id="Storage" name="storage" placeholder="0" min="0">
+                                                    </div>
+                                                </div>   
+                                            </div>
+                                            <div id="ROI" style="display: none;">
+                                                <h3 class="box-subheading"><strong>Potential Rental Fee</strong></h3>
+                                                <hr class="mt-0">
+                                                <div class="form-row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <div class="input-group" aria-describedby="PotentialRentFeeText">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text">$</div>
+                                                                </div>
+                                                                <input type="number" class="form-control" id="PotentialRentFee" name="potential_rent_fee">
+                                                            </div>
+                                                            <small id="PotentialRentFeeText" class="form-text text-muted">For Return On Investment (ROI) calculation.</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-5">
+                                            <h3 class="box-subheading">Surface Area</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="Surface">Useful</label>
+                                                        <div class="input-group">
+                                                            <input type="number" class="form-control" id="Surface" name="surface" placeholder="0" min="0">
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">m&sup2;</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="TotalSurface">Garden - Terrace</label>
+                                                        <div class="input-group">
+                                                            <input type="number" class="form-control" id="TotalSurface" name="total_surface" placeholder="0" min="0">
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">m&sup2;</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Expenses</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="CommonExpenses">Common Expenses</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">$</div>
+                                                            </div>
+                                                            <input type="number" class="form-control" id="CommonExpenses" name="common_expenses" placeholder="0" min="0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="Taxation">Taxation</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">$</div>
+                                                            </div>
+                                                            <input type="number" class="form-control" id="Taxation" name="taxation" placeholder="0" min="0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Condition</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <small id="ConditionText" class="form-text text-muted" style="margin-bottom: 10px;">Slide to select from worst to best:</small>
+                                                    <input type="range" class="custom-range" min="1" max="5" id="Condition" value="3" aria-describedby="ConditionText" name="condition" onchange="updateValueField(this.value, 'ConditionRangeValue', 'listing')">
+                                                    <div id="ConditionRangeValue" style="margin-top: 10px; color: rgb(238, 203, 2);"><small><strong>Regular</strong></small></div>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <!-- SPECIFIC FEATURES -->
+                        <div class="col-10">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-6 px-5">
+                                            <h3 class="box-subheading">Overall Specs</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="Orientation">Orientation</label>
+                                                        <select class="custom-select" id="Orientation" name="orientation">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="N">N</option>
+                                                            <option value="NE">NE</option>
+                                                            <option value="E">E</option>
+                                                            <option value="SE">SE</option>
+                                                            <option value="S">S</option>
+                                                            <option value="SW">SW</option>
+                                                            <option value="W">W</option>
+                                                            <option value="NW">NW</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="ViewType">View Type</label>
+                                                        <select class="custom-select" id="ViewType" name="view_type">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="None">None</option>
+                                                            <option value="City">City</option>
+                                                            <option value="Forest">Forest</option>
+                                                            <option value="Mountains">Mountains</option>
+                                                            <option value="Lake">Lake</option>
+                                                            <option value="River">River</option>
+                                                            <option value="Sea">Sea</option>   
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="ConstructionYear">Year</label>
+                                                        <input type="number" class="form-control" id="ConstructionYear" name="construction_year">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="ConstructionMaterial">Structure</label>
+                                                        <select class="custom-select" id="ConstructionMaterial" name="construction_material">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Adobe">Adobe</option>
+                                                            <option value="Concrete">Concrete</option>
+                                                            <option value="Brick">Masonry - Brick</option>
+                                                            <option value="Block">Masonry - Other Block</option>
+                                                            <option value="Prefab">Prefab</option>
+                                                            <option value="Steel">Steel</option>
+                                                            <option value="Wood">Wood</option>
+                                                            <option value="Other">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="BuiltFloors">Floors</label>
+                                                        <input type="number" class="form-control" id="BuiltFloors" name="built_floors" min="1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="OnFloor">On Floor</label>
+                                                        <input type="number" class="form-control" id="OnFloor" name="on_floor" min="1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Flooring</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="FlooringBedroom">Bedrooms</label>
+                                                        <select class="custom-select" id="FlooringBedroom" name="flooring_bedroom">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Carpet">Carpet</option>
+                                                            <option value="Ceramic">Ceramic</option>
+                                                            <option value="Laminate">Laminate</option>
+                                                            <option value="Stone">Natural Stone</option>
+                                                            <option value="Porcelain">Porcelain</option>
+                                                            <option value="Poured">Poured</option>
+                                                            <option value="Timber">Timber</option>
+                                                            <option value="Vinyl">Vinyl</option>
+                                                            <option value="Wooden">Wooden</option>  
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="FlooringBathroom">Bathrooms</label>
+                                                        <select class="custom-select" id="FlooringBathroom" name="flooring_bathroom">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Carpet">Carpet</option>
+                                                            <option value="Ceramic">Ceramic</option>
+                                                            <option value="Laminate">Laminate</option>
+                                                            <option value="Stone">Natural Stone</option>
+                                                            <option value="Porcelain">Porcelain</option>
+                                                            <option value="Poured">Poured</option>
+                                                            <option value="Timber">Timber</option>
+                                                            <option value="Vinyl">Vinyl</option>
+                                                            <option value="Wooden">Wooden</option>  
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="FlooringLiving">Living Room</label>
+                                                        <select class="custom-select" id="FlooringLiving" name="flooring_living">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Carpet">Carpet</option>
+                                                            <option value="Ceramic">Ceramic</option>
+                                                            <option value="Laminate">Laminate</option>
+                                                            <option value="Stone">Natural Stone</option>
+                                                            <option value="Porcelain">Porcelain</option>
+                                                            <option value="Poured">Poured</option>
+                                                            <option value="Timber">Timber</option>
+                                                            <option value="Vinyl">Vinyl</option>
+                                                            <option value="Wooden">Wooden</option>  
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="FlooringKitchen">Kitchen</label>
+                                                        <select class="custom-select" id="FlooringKitchen" name="flooring_kitchen">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Carpet">Carpet</option>
+                                                            <option value="Ceramic">Ceramic</option>
+                                                            <option value="Laminate">Laminate</option>
+                                                            <option value="Stone">Natural Stone</option>
+                                                            <option value="Porcelain">Porcelain</option>
+                                                            <option value="Poured">Poured</option>
+                                                            <option value="Timber">Timber</option>
+                                                            <option value="Vinyl">Vinyl</option>
+                                                            <option value="Wooden">Wooden</option>   
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-5">
+                                            <h3 class="box-subheading">Layout</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="LivingDiningLayout">Living - Dining Room</label>
+                                                        <select class="custom-select" id="LivingDiningLayout" name="living_dining_layout">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Apart">Apart Space</option>
+                                                            <option value="Shared">Shared Spaces</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="KitchenType">Kitchen Type</label>
+                                                        <select class="custom-select" id="KitchenType" name="kitchen_type">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Open">Open</option>
+                                                            <option value="Incorporated">Incorporated</option>
+                                                            <option value="Isolated">Isolated</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="KitchenLayout">Kitchen Layout</label>
+                                                        <select class="custom-select" id="KitchenType" name="kitchen_layout">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Single">Single Row</option>
+                                                            <option value="Gallery">Gallery</option>
+                                                            <option value="Island">Island</option>
+                                                            <option value="L">L</option>
+                                                            <option value="U">U</option>
+                                                            <option value="G">G</option>    
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <h3 class="box-subheading">Heat Systems</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="KitchenHeating">Kitchen</label>
+                                                        <select class="custom-select" id="KitchenHeating" name="kitchen_heating">
+                                                            <option  value="" disabled selected>-</option>
+                                                            <option value="Electric">Electric</option>
+                                                            <option value="Firewood">Firewood</option>  
+                                                            <option value="Gas">Gas</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="WaterHeating">Water</label>
+                                                        <select class="custom-select" id="WaterHeating" name="water_heating">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Boiler">Common Boiler</option>
+                                                            <option value="Electric">Electric</option>
+                                                            <option value="Gas">Gas</option>
+                                                            <option value="Solar">Solar</option>  
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="Heating">Heating</label>
+                                                        <select class="custom-select" id="Heating" name="heating">
+                                                            <option  value="" disabled selected>--</option>
+                                                            <option value="Electric">Electric</option>
+                                                            <option value="Firewood">Firewood</option>
+                                                            <option value="Gas">Gas</option>
+                                                            <option value="Radiator">Radiator</option>
+                                                            <option value="Underfloor">Underfloor</option>  
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>   
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <!-- Equipment -->
+                        <div class="col-8">
+                            <div class="form-box">
+                                <div class="content-box">
+                                    <div class="row">
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Overall</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Furnished" name="furnished" value="1">
+                                                        <label class="custom-control-label" for="Furnished">Furnished</label>
+                                                    </div>
+                                                </div>     
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="OnSiteLaundry" name="on_site_laundry" value="1">
+                                                        <label class="custom-control-label" for="OnSiteLaundry">On-Site Laundry</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="DailyDining" name="daily_dining" value="1">
+                                                        <label class="custom-control-label" for="DailyDining">Daily Dining</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Building</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Condominium" name="condominium" value="1">
+                                                        <label class="custom-control-label" for="Condominium">Condominium</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Janitor" name="janitor" value="1">
+                                                        <label class="custom-control-label" for="Janitor">Janitor</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Elevator" name="elevator" value="1">
+                                                        <label class="custom-control-label" for="Elevator">Elevator</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="VisitorParking" name="visitor_parking" value="1">
+                                                        <label class="custom-control-label" for="VisitorParking">Visitor Parking</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Laundry" name="laundry" value="1">
+                                                        <label class="custom-control-label" for="Laundry">Laundry</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Connections</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="PipeGas" name="pipe_gas" value="1">
+                                                        <label class="custom-control-label" for="PipeGas">Pipe Gas</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="WMConnection" name="wm_connection" value="1">
+                                                        <label class="custom-control-label" for="WMConnection">For Washing Machine</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-4">
+                                            <h3 class="box-subheading">Windows</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="DoubleGlazed" name="double_glazed" value="1">
+                                                        <label class="custom-control-label" for="DoubleGlazed">Double Glazed</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="BathroomWindow" name="bathroom_window" value="1">
+                                                        <label class="custom-control-label" for="BathroomWindow">On Bathroom</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="box-subheading">Amusement</h3>
+                                            <hr class="mt-0">
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Barbeque" name="barbeque" value="1">
+                                                        <label class="custom-control-label" for="Barbeque">Barbeque Area</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Gym" name="gym" value="1">
+                                                        <label class="custom-control-label" for="Gym">Gym</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="LoungeRoom" name="lounge_room" value="1">
+                                                        <label class="custom-control-label" for="LoungeRoom">Lounge Room</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Pool" name="pool" value="1">
+                                                        <label class="custom-control-label" for="Pool">Pool</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Rooftop" name="rooftop" value="1">
+                                                        <label class="custom-control-label" for="Rooftop">Rooftop</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="Sauna" name="sauna" value="1">
+                                                        <label class="custom-control-label" for="Sauna">Sauna</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
+        
+                    <div class="row justify-content-center mt-5">
+                        <button type="button" class="log-btn mx-1" id="PrevBtn" onclick="nextPrev(-1)">Previuos</button>
+                        <button type="button" class="log-btn mx-1" id="NextBtn" onclick="nextPrev(1)">Next</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+{% endblock %}
+
+{% block function_call %}
+    <script>
+        showRegions('Region'); 
+    </script>
+{% endblock %}
+
+{% block script %}
+    <script src="/static/multistepForm.js"></script>
+{% endblock %}
