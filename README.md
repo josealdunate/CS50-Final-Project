@@ -13,7 +13,7 @@ It will constantly be comparing your clients needs to your listing's features, r
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install.
 
 
-### Activate the environment
+#### Activate the environment
 
 On MacOS / Linux
 ```bash
@@ -25,20 +25,20 @@ On Windows
 venv\Scripts\activate
 ```
 
-### Install Flask and Flask Session
+#### Install Flask and Flask Session
 
 ```bash
 pip install Flask
 pip install Flask-Session
 ```
 
-### Install CS50 module
+#### Install CS50 module
 
 ```bash 
 pip install CS50
 ```
 
-### Run Application
+#### Run Application
 
 ```bash
 flask run
